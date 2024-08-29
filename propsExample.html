@@ -7,45 +7,38 @@
   <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
   <script type="text/babel">
-    // 1. props를 변수로 사용
-    //  function Btn(props) {
-    //   return (
-    //     <button
-    //       style={{
-    //         backgroundColor: 'tomato',
-    //         color: 'white',
-    //         padding: '10px 20px',
-    //         border: 0,
-    //         borderRadius: 10,
-    //       }}
-    //     >
-    //       {props.text}
-    //     </button>
-    //   );
-    // }
-
-    // 2. {}로 property를 오브젝트로부터 꺼내는 shortcut 방식
-    function Btn({ text, big }) {
-      return (
-        <button
-          style={{
-            backgroundColor: 'tomato',
-            color: 'white',
-            padding: '10px 20px',
-            border: 0,
-            borderRadius: 10,
-            fontSize: big ? 18 : 16,
-          }}
-        >
-          {text}
-        </button>
-      );
-    }
-    function App() {
+    function Btn({ text, changeValue }) {
+      console.log(text, 'was rendered');
       return (
         <div>
-          <Btn text="Save Changes" big={true} />
-          <Btn text="Continue" bit={false} />
+          <button
+            onClick={changeValue}
+            style={{
+              backgroundColor: 'tomato',
+              color: 'white',
+              padding: '10px 20px',
+              border: 0,
+              borderRadius: 10,
+            }}
+          >
+            {text}
+          </button>
+        </div>
+      );
+    }
+    //props가 바뀌면 새로 그려지게 되는데 props가 바뀌지 않는 경우 다시 그릴 필요가 없기 때문에 React Memo를 사용할 수 있음
+    const MemorizedBtn = React.memo(Btn);
+
+    function App() {
+      //props와 이벤트 리스너 구분하기 아래에 쓴 것은 props일 뿐 이벤트 리스너가 아니기 때문에 changeValue가 작동하기 위해서는
+      //위의 Btn function에서 changeValue라는 props를 호출해서 사용해야함
+      //props로 보낼 수 있는 타입에는 string, boolean 뿐만아니라 function도 보낼 수 있다.
+      const [value, setValue] = React.useState('Save Changes');
+      const changeValue = () => setValue('Revert Change');
+      return (
+        <div>
+          <MemorizedBtn text={value} changeValue={changeValue} />
+          <MemorizedBtn text="Continue" />
         </div>
       );
     }
