@@ -1,11 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // import Button from './Button';
 import styles from './App.module.css';
 
 function App() {
   const [counter, setValue] = useState(0);
   const onClick = () => setValue((prev) => prev + 1);
-  console.log('rending');
+  console.log('i run all time');
+  // const iRunOnlyOnce = () => {
+  //   console.log('i run only once');
+  // };
+  useEffect(() => {
+    console.log('i run only once');
+  }, []);
   return (
     <div>
       <h1 className={styles.title}>{counter}</h1>
