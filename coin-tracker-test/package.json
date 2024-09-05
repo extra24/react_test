@@ -11,8 +11,6 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "resolve-url-loader": "^5.0.0",
-    "postcss": "^8.4.45",
     "react-scripts": "5.0.1"
   },
   "scripts": {
